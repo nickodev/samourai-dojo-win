@@ -12,12 +12,14 @@ const statusScript = {
   refreshApiStatus: function() {
     return lib_api.getApiStatus().then(apiStatus => {
       if (apiStatus) {
-        $('#tracker-status-ind').text('UP')
+        $('#tracker-status-ind').html('&#10003;')
+        $('#tracker-status-ind').css('color', '#76d776')
         $('#tracker-uptime').text(apiStatus['uptime'])
         $('#tracker-chaintip').text(apiStatus['blocks'])
       }
     }).catch(e => {
-      $('#tracker-status-ind').text('-')
+      $('#tracker-status-ind').text('X')
+      $('#tracker-status-ind').css('color', '#f77c7c')
       $('#tracker-uptime').text('-')
       $('#tracker-chaintip').text('-')
       lib_msg.displayErrors(lib_msg.extractJqxhrErrorMsg(e))
@@ -29,7 +31,8 @@ const statusScript = {
     lib_api.getPushtxStatus().then(pushTxStatus => {
       if (pushTxStatus) {
         const data = pushTxStatus['data']
-        $('#node-status-ind').text('UP')
+        $('#node-status-ind').html('&#10003;')
+        $('#node-status-ind').css('color', '#76d776')
         const uptime = lib_cmn.timePeriod(data['uptime'])
         $('#node-uptime').text(uptime)
         $('#node-chaintip').text(data['bitcoind']['blocks'])
@@ -41,6 +44,7 @@ const statusScript = {
       }
     }).catch(e => {
       $('#node-status-ind').text('-')
+      $('#node-status-ind').css('color', '#f77c7c')
       $('#node-uptime').text('-')
       $('#node-chaintip').text('-')
       $('#node-version').text('-')

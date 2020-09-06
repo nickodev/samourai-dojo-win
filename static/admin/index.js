@@ -43,6 +43,8 @@ function login() {
  * onPageLoaded
  */
 $(document).ready(function() {
+  // Dynamic loading of html and scripts
+  lib_cmn.includeHTML()
   // Sets the event handlers
   $('#apikey').keyup(function(evt) {
     if (evt.keyCode === 13) {

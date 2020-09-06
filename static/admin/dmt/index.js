@@ -10,7 +10,8 @@ const screens = [
   '#screen-pairing',
   '#screen-xpubs-tools',
   '#screen-addresses-tools',
-  '#screen-blocks-rescan'
+  '#screen-blocks-rescan',
+  '#screen-help-dmt'
 ]
 
 // Ordered list of menu items
@@ -21,7 +22,8 @@ const tabs = [
   '#link-pairing',
   '#link-xpubs-tools',
   '#link-addresses-tools',
-  '#link-blocks-rescan'
+  '#link-blocks-rescan',
+  '#link-help-dmt'
 ]
 
 // Mapping of scripts associaed to screens
@@ -52,7 +54,6 @@ function initTabs() {
 function initPages() {
   // Dynamic loading of screens and scripts
   lib_cmn.includeHTML(preparePage)
-  //lib_cmn.includeJs()
   // Dojo version
   let lblVersion = sessionStorage.getItem('lblVersion')
   if (lblVersion == null) {
@@ -86,11 +87,13 @@ function preparePage() {
  * Processing on loading completed
  */
 $(document).ready(function() {
-  // Refresh the access token if needed
+  // Refresh the access token
+  lib_auth.refreshAccessToken()
   setInterval(() => {
     lib_auth.refreshAccessToken()
   }, 300000)
 
+  // Inits menu and pages
   initTabs()
   initPages()
 

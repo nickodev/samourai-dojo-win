@@ -1,15 +1,22 @@
 const screenXpubsToolsScript = {
 
   explorerInfo: null,
+  currentXpub: null,
 
   preparePage: function() {
     this.getExplorerInfo()
+    this.hideRescanForm()
     this.showSearchForm()
     $("#xpub").focus()
     // Sets the event handlers
-    $('#btn-go').click(() => {this.searchXpub()})
-    $('#btn-reset').click(() => {this.showSearchForm()})
-    $('#btn-rescan').click(() => {this.rescanXpub()})
+    $('#btn-xpub-search-go').click(() => {this.searchXpub()})
+    $('#btn-xpub-details-reset').click(() => {this.showSearchForm()})
+    $('#btn-xpub-details-rescan').click(() => {this.showRescanForm()})
+    $('#btn-xpub-rescan-go').click(() => {this.rescanXpub()})
+    $('#btn-xpub-rescan-cancel').click(() => {this.hideRescanForm()})
+    $('#btn-xpub-import-go').click(() => {this.importXpub()})
+    $('#btn-xpub-details-retype').click(() => {this.showImportForm(true)})
+    $('#btn-xpub-import-cancel').click(() => {this.showSearchForm()})
     $('#xpubs-tool').keyup(evt => {
       if (evt.keyCode === 13) {
         this.searchXpub()
@@ -20,7 +27,6 @@ const screenXpubsToolsScript = {
   getExplorerInfo: function() {
     lib_api.getExplorerPairingInfo().then(explorerInfo => {
       this.explorerInfo = explorerInfo
-      console.log(explorerInfo)
     }).catch(e => {
       lib_msg.displayErrors(lib_msg.extractJqxhrErrorMsg(e))
       console.log(e)
@@ -28,27 +34,85 @@ const screenXpubsToolsScript = {
   },
 
   searchXpub: function() {
+    lib_msg.displayMessage('Search in progress...');
     const xpub = $('#xpub').val()
-    return lib_api.getXpubInfo(xpub)
-      .then(xpubInfo => {
-        if (xpubInfo && xpubInfo['tracked']) {
-          this.setXpubDetails(xpubInfo)
-          this.showXpubDetails()
-        } else {
+    this.currentXpub = xpub
+    return this._searchXpub(xpub).then(() => {
+      lib_msg.cleanMessagesUi()
+    })
+  },
 
-        }
-      }).then(() => {
+  _searchXpub: function(xpub) {
+    return lib_api.getXpubInfo(xpub).then(xpubInfo => {
+      if (xpubInfo && xpubInfo['tracked']) {
+        this.setXpubDetails(xpubInfo)
+        this.showXpubDetails()
         const jsonData = {'active': xpub}
         return lib_api.getWallet(jsonData).then(walletInfo => {
           // Display the txs
           const txs = walletInfo['txs']
           for (let tx of txs)
             this.setTxDetails(tx)
-          // display the UTXOs
-          const utxos = walletInfo['unspent_outputs']
+          // Display the UTXOs
+          const utxos = walletInfo['unspent_outputs'].sort((a,b) => {
+            return a['confirmations'] - b['confirmations']
+          })
           $('#xpub-nb-utxos').text(utxos.length)
           for (let utxo of utxos)
             this.setUtxoDetails(utxo)
+        })
+      } else {
+        lib_msg.displayErrors('xpub not found')
+        this.showImportForm(false)
+      }
+    }).catch(e => {
+      lib_msg.displayErrors(lib_msg.extractJqxhrErrorMsg(e))
+      console.log(e)
+      throw e
+    })
+  },
+
+  importXpub: function() {
+    lib_msg.displayMessage('Processing xpub import...');
+
+    const jsonData = {
+      'xpub': this.currentXpub,
+      'type': 'restore',
+      'force': true
+    }
+
+    const derivType = $('#import-deriv-type').val()
+    if (derivType == 'bip49' || derivType == 'bip84') {
+      jsonData['segwit'] = derivType
+    } else if (derivType == 'auto') {
+      if (this.currentXpub.startsWith('ypub'))
+        jsonData['segwit'] = 'bip49'
+      else if (this.currentXpub.startsWith('zpub'))
+        jsonData['segwit'] = 'bip84'
+    }
+
+    return lib_api.postXpub(jsonData)
+      .then(result => {
+        this._searchXpub(this.currentXpub).then(() => {
+          lib_msg.displayInfo('Import complete')
+        })
+      }).catch(e => {
+        lib_msg.displayErrors(lib_msg.extractJqxhrErrorMsg(e))
+        console.log(e)
+      })
+  },
+
+  rescanXpub: function() {
+    lib_msg.displayMessage('Processing xpub rescan...');
+    let startIdx = $('#rescan-start-idx').val()
+    startIdx = (startIdx == null) ? 0 : parseInt(startIdx)
+    let lookahead = $('#rescan-lookahead').val()
+    lookahead = (lookahead == null) ? 100 : parseInt(lookahead)
+    return lib_api.getXpubRescan(this.currentXpub, lookahead, startIdx)
+      .then(result => {
+        this.hideRescanForm()
+        this._searchXpub(this.currentXpub).then(() => {
+          lib_msg.displayInfo('Rescan complete')
         })
       }).catch(e => {
         lib_msg.displayErrors(lib_msg.extractJqxhrErrorMsg(e))
@@ -57,7 +121,10 @@ const screenXpubsToolsScript = {
   },
 
   setXpubDetails: function(xpubInfo) {
-    $('#xpub-value').text(xpubInfo['xpub'])
+    $('tr.tx-row').remove()
+    $('tr.utxo-row').remove()
+
+    $('#xpub-value').text(this.currentXpub)
     $('#xpub-import-date').text(xpubInfo['created'])
     $('#xpub-deriv-type').text(xpubInfo['derivation'])
     $('#xpub-nb-txs').text(xpubInfo['n_tx'])
@@ -81,26 +148,26 @@ const screenXpubsToolsScript = {
     const date = lib_fmt.unixTsToLocaleString(tx['time'])
     const txUrl = lib_cmn.getExplorerTxUrl(txid, this.explorerInfo)
 
-    const newRow = `<tr><td colspan="2">&nbsp;</td></tr>
-      <tr>
+    const newRow = `<tr class="tx-row"><td colspan="2">&nbsp;</td></tr>
+      <tr class="tx-row">
         <td class="table-label" colspan="2">
           <a href="${txUrl}" target="_blank">${txidDisplay}</a>
         </td>
       </tr>
-      <tr>
+      <tr class="tx-row">
         <td class="table-label">Amount</td>
         <td class="table-value ${amountStyle}">${amountLabel} BTC</td>
       </tr>
-      <tr>
+      <tr class="tx-row">
         <td class="table-label">Block height</td>
         <td class="table-value">${tx['block_height']}</td>
       </tr>
-      <tr>
+      <tr class="tx-row">
         <td class="table-label">Date</td>
         <td class="table-value">${date}</td>
       </tr>`
 
-    $('#table-list-txs tr:last').after(newRow)
+    $('#xpub-table-list-txs tr:last').after(newRow)
   },
 
   setUtxoDetails: function(utxo) {
@@ -109,41 +176,69 @@ const screenXpubsToolsScript = {
     const amount = parseInt(utxo['value']) / 100000000
     const txUrl = lib_cmn.getExplorerTxUrl(txid, this.explorerInfo)
 
-    const newRow = `<tr><td colspan="2">&nbsp;</td></tr>
-      <tr>
+    const newRow = `<tr class="utxo-row"><td colspan="2">&nbsp;</td></tr>
+      <tr class="utxo-row">
         <td class="table-label" colspan="2">
           <a href="${txUrl}" target="_blank">${txidVout}</a>
         </td>
       </tr>
-      <tr>
+      <tr class="utxo-row">
         <td class="table-label">Amount</td>
         <td class="table-value">${amount} BTC</td>
       </tr>
-      <tr>
+      <tr class="utxo-row">
         <td class="table-label">Address</td>
         <td class="table-value">${utxo['addr']}</td>
       </tr>
-      <tr>
+      <tr class="utxo-row">
         <td class="table-label">Confirmations</td>
         <td class="table-value">${utxo['confirmations']}</td>
       </tr>`
 
-    $('#table-list-utxos tr:last').after(newRow)
+    $('#xpub-table-list-utxos tr:last').after(newRow)
   },
 
   showSearchForm: function() {
     $('#xpubs-tool-details').hide()
+    $('#xpubs-tool-import').hide()
     $('#xpub').val('')
     $('#xpubs-tool-search-form').show()
+    lib_msg.cleanMessagesUi()
+  },
+
+  showImportForm: function(isReimport) {
+    $('#xpubs-tool-search-form').hide()
+    $('#xpubs-tool-details').hide()
+
+    if (isReimport) {
+      $('#import-deriv-first-import-msg').hide()
+      $('#import-deriv-reimport-msg').show()
+    } else {
+      $('#import-deriv-reimport-msg').hide()
+      $('#import-deriv-first-import-msg').show()
+    }
+
+    const xpubLen = this.currentXpub.length
+    const xpubShortLbl = `"${this.currentXpub.substring(0, 20)}...${this.currentXpub.substring(xpubLen-20, xpubLen)}"`
+    $('#import-xpub').text(xpubShortLbl)
+    $('#xpubs-tool-import').show()
   },
 
   showXpubDetails: function() {
     $('#xpubs-tool-search-form').hide()
+    $('#xpubs-tool-import').hide()
     $('#xpubs-tool-details').show()
   },
 
-  rescanXpub: function() {
+  showRescanForm: function() {
+    $('#xpubs-tool-actions').hide()
+    $('#xpubs-rescans-actions').show()
+    lib_msg.cleanMessagesUi()
+  },
 
+  hideRescanForm: function() {
+    $('#xpubs-rescans-actions').hide()
+    $('#xpubs-tool-actions').show()
   },
 
 }

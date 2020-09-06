@@ -13,7 +13,7 @@ const lib_cmn = {
   // Go to default page
   goToDefaultPage: function() {
     const baseUri = conf['adminTool']['baseUri']
-    sessionStorage.setItem('activeTab', '#link-welcome')
+    sessionStorage.setItem('activeTab', '#link-status')
     window.location = baseUri + '/dmt/'
   },
 
@@ -50,7 +50,7 @@ const lib_cmn = {
             elmnt.innerHTML = this.responseText
             elmnt.removeAttribute('include-html')
             self.includeHTML(cb)
-            self.includeJs(cb)
+            self.includeJs(elmnt, cb)
           }
         }
         xhttp.open('GET', file, true)
@@ -62,10 +62,10 @@ const lib_cmn = {
   },
 
   // Loads js snippet
-  includeJs: function(cb) {
+  includeJs: function(element, cb) {
     let self = this
     let z, i, elmnt, file, xhttp
-    z = document.querySelectorAll('script')
+    z = element.querySelectorAll('script')
     for (i = 0; i < z.length; i++) {
       elmnt = z[i]
       file = elmnt.getAttribute('include-js')
@@ -79,7 +79,6 @@ const lib_cmn = {
               elmnt.parentNode.insertBefore(newElmnt, elmnt.nextSibling)
               elmnt.parentNode.removeChild(elmnt)
             }
-            if (cb) cb()
           }
         }
         xhttp.open('GET', file, true)

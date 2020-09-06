@@ -3,7 +3,7 @@ const screenBlocksRescanScript = {
   preparePage: function() {
     $("#rescan-from-height").focus()
     // Sets the event handlers
-    $('#btn-go').click(() => {
+    $('#btn-rescan-go').click(() => {
       this.processRescan()
     })
     $('#blocks-rescan').keyup(evt => {
@@ -14,12 +14,12 @@ const screenBlocksRescanScript = {
   },
 
   processRescan: function() {
+    lib_msg.displayMessage('Processing...');
+
     let fromHeight = $("#rescan-from-height").val()
     let toHeight = $("#rescan-to-height").val()
     fromHeight = parseInt(fromHeight)
     toHeight = (toHeight) ? parseInt(toHeight) : fromHeight;
-
-    lib_msg.displayMessage('Processing...');
 
     lib_api.getBlocksRescan(fromHeight, toHeight).then(result => {
       if (!result)

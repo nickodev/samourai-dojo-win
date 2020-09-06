@@ -27,7 +27,7 @@
       </div>
       <div class="col-xs-3 login-box">
         <a id="btn-logout" style="display: inline;" href="#" title="DISCONNECT">
-        <img src="../icons/ic_power_settings_new_white_24dp_1x.png" class="mini-icon"/>
+          <img src="../icons/ic_power_settings_new_white_24dp_1x.png" class="mini-icon"/>
         </a>
       </div>
     </div>
@@ -70,6 +70,24 @@
             <a href="#">BLOCKS RESCAN</a>
           </li>
         </ul>
+        <div class="spacer20"></div>
+        <div class="title">
+          <h1>HELP</h1>
+        </div>
+        <ul id="tab-menu_list3" class="nav nav-pills nav-stacked">
+          <li id="link-help-dmt">
+            <a href="#">HELP DMT</a>
+          </li>
+          <li id="link-dojo-telegram">
+            <a href="https://t.me/samourai_dojo" target="_blank">DOJO TELEGRAM CHAT</a>
+          </li>
+          <li id="link-wp-telegram">
+            <a href="https://t.me/whirlpool_trollbox" target="_blank">WHIRLPOOL TELEGRAM CHAT</a>
+          </li>
+          <li id="link-sw-support">
+            <a href="https://t.me/SamouraiWallet" target="_blank">SW TELEGRAM CHAT</a>
+          </li>
+        </ul>
       </div>
       <div class="col-xs-1"></div>
       <!-- MAIN AREA -->
@@ -102,12 +120,16 @@
         <div id="screen-blocks-rescan"
           include-html="blocks-rescan/blocks-rescan.html">
         </div>
+        <!-- HELP DMT -->
+        <div id="screen-help-dmt"
+          include-html="welcome/welcome.html">
+        </div>
       </div>
     </div>
-    <!-- MSG BOX -->
-    <div id="box-msg"
-      include-html="msg-box/msg-box.html">
-    </div>
+  </div>
+  <!-- MSG BOX -->
+  <div id="box-msg"
+    include-html="msg-box/msg-box.html">
   </div>
 </body>
 
