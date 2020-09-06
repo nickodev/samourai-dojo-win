@@ -1,0 +1,66 @@
+<div id="pairing">
+  <h1>DOJO STATUS</h1>
+
+  <div class="box-context">Monitor the heath of some core components of your Dojo.</div>
+
+  <div class="row">
+    <div id="bitcoind-status" class="halfwidth box">
+      <div class="box-header">FULL NODE</div>
+      <div class="box-body">
+        <table>
+          <tr>
+            <td class="table-label">Status</td>
+            <td class="table-value" id="node-status-ind"></td>
+          </tr>
+          <tr>
+            <td class="table-label">Uptime</td>
+            <td class="table-value" id="node-uptime"></td>
+          </tr>
+          <tr>
+            <td class="table-label">Latest block</td>
+            <td class="table-value" id="node-chaintip"></td>
+          </tr>
+          <tr>
+            <td class="table-label">Bitcoind version</td>
+            <td class="table-value" id="node-version"></td>
+          </tr>
+          <tr>
+            <td class="table-label">Network</td>
+            <td class="table-value" id="node-network"></td>
+          </tr>
+          <tr>
+            <td class="table-label">Connected nodes</td>
+            <td class="table-value" id="node-conn"></td>
+          </tr>
+          <tr>
+            <td class="table-label">Network relay fee</td>
+            <td class="table-value" id="node-relay-fee"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="tracker-status" class="halfwidth box">
+      <div class="box-header">TRACKER</div>
+      <div class="box-body">
+        <table>
+          <tr>
+            <td class="table-label">Status</td>
+            <td class="table-value" id="tracker-status-ind">value</td>
+          </tr>
+          <tr>
+            <td class="table-label">Uptime</td>
+            <td class="table-value" id="tracker-uptime">value</td>
+          </tr>
+          <tr>
+            <td class="table-label">Latest block</td>
+            <td class="table-value" id="tracker-chaintip">value</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script include-js="status/status.js"></script>
