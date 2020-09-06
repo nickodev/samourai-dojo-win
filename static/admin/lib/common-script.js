@@ -23,6 +23,18 @@ const lib_cmn = {
     window.location = conf['adminTool']['baseUri'] + '/'
   },
 
+  // Get Transaction url on selected explorer
+  getExplorerTxUrl: function(txid, explorerInfo) {
+    if (explorerInfo == null)
+      return null
+    else if (explorerInfo['pairing']['type'] == 'explorer.oxt')
+      return `${explorerInfo['pairing']['url']}/transaction/${txid}`
+    else if (explorerInfo['pairing']['type'] == 'explorer.btc_rpc_explorer')
+      return `http://${explorerInfo['pairing']['url']}/tx/${txid}`
+    else
+      return null
+  },
+
   // Loads html snippet
   includeHTML: function(cb) {
     let self = this
@@ -74,6 +86,40 @@ const lib_cmn = {
         xhttp.send()
         return
       }
+    }
+  },
+
+  pad10: function(v) {
+    return (v < 10) ? `0${v}` : `${v}`
+  },
+
+  pad100: function(v) {
+    if (v < 10) return `00${v}`
+    if (v < 100) return `0${v}`
+    return `${v}`
+  },
+
+  timePeriod: function(period, milliseconds) {
+    milliseconds = !!milliseconds
+
+    const whole = Math.floor(period)
+    const ms = 1000*(period - whole)
+    const s = whole % 60
+    const m = (whole >= 60) ? Math.floor(whole / 60) % 60 : 0
+    const h = (whole >= 3600) ? Math.floor(whole / 3600) % 24 : 0
+    const d = (whole >= 86400) ? Math.floor(whole / 86400) : 0
+
+    const parts = [this.pad10(h), this.pad10(m), this.pad10(s)]
+
+    if (d > 0)
+      parts.splice(0, 0, this.pad100(d))
+
+    const str = parts.join(':')
+
+    if (milliseconds) {
+      return str + '.' + this.pad100(ms)
+    } else {
+      return str
     }
   }
 

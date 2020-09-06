@@ -1,1 +1,139 @@
-<h1>XPUBS TOOL</h1>
+<div id="xpubs-tool">
+  <h1>XPUBS TOOL</h1>
+
+  <div class="box-context">Check if a XPUB is tracked by your Dojo. Import and track a new XPUB. Rescan the full history of a XPUB.</div>
+
+  <div class="row box-main">
+    <!-- XPUB SEARCH FORM -->
+    <div id="xpubs-tool-search-form" class="fullwidth box">
+      <div class="box-body">
+        <span>Check if </span>
+        <input id="xpub" type="text" placeholder="XPUB">
+        <span> is tracked by your Dojo </span>
+        <button id="btn-go"
+          class="btn btn-success"
+          type="button">GO</button>
+      </div>
+    </div>
+
+    <!-- XPUB DETAILS -->
+    <div id="xpubs-tool-details">
+      <div id="xpubs-tool-header" class="row box-main">
+        <div class="box">
+          <div id="xpub-value" class="box-body center"></div>
+        </div>
+      </div>
+
+      <div id="xpubs-tool-actions" class="row box-main">
+        <div class="center">
+          <button id="btn-rescan" class="btn btn-success" type="button">RESCAN</button>
+          <button id="btn-reset" class="btn btn-success" type="button">CLOSE</button>
+        </div>
+      </div>
+
+      <div id="xpubs-tool-details-row1" class="row box-main">
+        <!-- GENERAL INFO -->
+        <div id="box-general" class="halfwidth box">
+          <div class="box-header">GENERAL INFO</div>
+          <div class="spacer10"></div>
+          <div class="box-body">
+            <table>
+              <tr>
+                <td class="table-label">Import date</td>
+                <td class="table-value" id="xpub-import-date"></td>
+              </tr>
+              <tr>
+                <td class="table-label">Derivation Type</td>
+                <td class="table-value" id="xpub-deriv-type"></td>
+              </tr>
+              <tr>
+                <td class="table-label">Number of Txs</td>
+                <td class="table-value" id="xpub-nb-txs"></td>
+              </tr>
+              <tr>
+                <td class="table-label">Number of UTXOs</td>
+                <td class="table-value" id="xpub-nb-utxos"></td>
+              </tr>
+              <tr>
+                <td class="table-label">Balance</td>
+                <td class="table-value" id="xpub-balance"></td>
+              </tr>
+            </table>
+            <div class="spacer10"></div>
+          </div>
+        </div>
+        <!-- DERIVATION INFO -->
+        <div id="box-derivation" class="halfwidth box">
+          <div class="box-header">DERIVATION</div>
+          <div class="spacer10"></div>
+          <div class="box-body">
+            <table>
+              <tr>
+                <td class="table-label">Account</td>
+                <td class="table-value" id="xpub-deriv-account"></td>
+              </tr>
+              <tr>
+                <td class="table-label">Depth</td>
+                <td class="table-value" id="xpub-deriv-depth"></td>
+              </tr>
+            </table>
+            <div class="spacer10"></div>
+            <table id="table-deriv-idx">
+              <tr>
+                <td class="table-label" colspan="2">First unused indices</td>
+                <td class="table-label" colspan="2">Last derived indices</td>
+              </tr>
+              <tr>
+                <td class="table-label">External</td>
+                <td class="table-value" id="xpub-idx-unused-ext"></td>
+                <td class="table-label">External</td>
+                <td class="table-value" id="xpub-idx-derived-ext"></td>
+              </tr>
+              <tr>
+                <td class="table-label">Internal</td>
+                <td class="table-value" id="xpub-idx-unused-int"></td>
+                <td class="table-label">Internal</td>
+                <td class="table-value" id="xpub-idx-derived-int"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="xpubs-tool-details-row2" class="row box-main">
+        <!-- TXS LIST -->
+        <div id="box-txs" class="halfwidth box">
+          <div class="box-header">TRANSACTIONS</div>
+          <div class="spacer10"></div>
+          <div class="box-body">
+            <table id="table-list-txs">
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- UTXOS LIST -->
+        <div id="box-utxos" class="halfwidth box">
+          <div class="box-header">UTXOS</div>
+          <div class="spacer10"></div>
+          <div class="box-body">
+            <table id="table-list-utxos">
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script include-js="xpubs-tools/xpubs-tools.js"></script>

@@ -22,6 +22,7 @@ const screenPairingScript = {
         result['explorer'] = explorerInfo
       return result
     }).catch(e => {
+      lib_msg.displayErrors(lib_msg.extractJqxhrErrorMsg(e))
       console.log(e)
       return result
     })

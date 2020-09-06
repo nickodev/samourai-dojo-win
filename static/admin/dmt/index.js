@@ -67,6 +67,7 @@ function initPages() {
 }
 
 function preparePage() {
+  lib_msg.cleanMessagesUi()
   const activeTab = sessionStorage.getItem('activeTab')
   for (let idxTab in tabs) {
     const screen = screens[idxTab]
@@ -87,7 +88,7 @@ function preparePage() {
 $(document).ready(function() {
   // Refresh the access token if needed
   setInterval(() => {
-      lib_auth.refreshAccessToken()
+    lib_auth.refreshAccessToken()
   }, 300000)
 
   initTabs()

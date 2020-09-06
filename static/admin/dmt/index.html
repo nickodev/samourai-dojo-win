@@ -14,6 +14,7 @@
   <script src="../lib/api-wrapper.js"></script>
   <script src="../lib/auth-utils.js"></script>
   <script src="../lib/format-utils.js"></script>
+  <script src="../lib/messages.js"></script>
   <script src="index.js"></script>
 </head>
 
@@ -70,7 +71,7 @@
           </li>
         </ul>
       </div>
-      <div id="main" class="col-xs-1"></div>
+      <div class="col-xs-1"></div>
       <!-- MAIN AREA -->
       <div id="main" class="col-xs-9">
         <!-- WELCVME -->
@@ -103,7 +104,10 @@
         </div>
       </div>
     </div>
-
+    <!-- MSG BOX -->
+    <div id="box-msg"
+      include-html="msg-box/msg-box.html">
+    </div>
   </div>
 </body>
 

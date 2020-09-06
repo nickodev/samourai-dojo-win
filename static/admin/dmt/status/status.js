@@ -4,9 +4,9 @@ const statusScript = {
     this.refreshApiStatus()
     this.refreshPushTxStatus()
     // Refresh API status
-    setInterval(() => {this.refreshApiStatus()}, 300000)
+    setInterval(() => {this.refreshApiStatus()}, 60000)
     // Refresh PushTx status
-    setInterval(() => {this.refreshPushTxStatus()}, 300000)
+    setInterval(() => {this.refreshPushTxStatus()}, 60000)
   },
 
   refreshApiStatus: function() {
@@ -20,6 +20,7 @@ const statusScript = {
       $('#tracker-status-ind').text('-')
       $('#tracker-uptime').text('-')
       $('#tracker-chaintip').text('-')
+      lib_msg.displayErrors(lib_msg.extractJqxhrErrorMsg(e))
       console.log(e)
     })
   },
@@ -27,14 +28,16 @@ const statusScript = {
   refreshPushTxStatus: function() {
     lib_api.getPushtxStatus().then(pushTxStatus => {
       if (pushTxStatus) {
+        const data = pushTxStatus['data']
         $('#node-status-ind').text('UP')
-        $('#node-uptime').text(pushTxStatus['uptime'])
-        $('#node-chaintip').text(pushTxStatus['bitcoind']['blocks'])
-        $('#node-version').text(pushTxStatus['bitcoind']['version'])
-        const network = pushTxStatus['bitcoind']['testnet'] == true ? 'testnet' : 'mainnet'
+        const uptime = lib_cmn.timePeriod(data['uptime'])
+        $('#node-uptime').text(uptime)
+        $('#node-chaintip').text(data['bitcoind']['blocks'])
+        $('#node-version').text(data['bitcoind']['version'])
+        const network = data['bitcoind']['testnet'] == true ? 'testnet' : 'mainnet'
         $('#node-network').text(network)
-        $('#node-conn').text(pushTxStatus['bitcoind']['conn'])
-        $('#node-relay-fee').text(pushTxStatus['bitcoind']['relayfee'])
+        $('#node-conn').text(data['bitcoind']['conn'])
+        $('#node-relay-fee').text(data['bitcoind']['relayfee'])
       }
     }).catch(e => {
       $('#node-status-ind').text('-')
@@ -44,6 +47,7 @@ const statusScript = {
       $('#node-network').text('-')
       $('#node-conn').text('-')
       $('#node-relay-fee').text('-')
+      lib_msg.displayErrors(lib_msg.extractJqxhrErrorMsg(e))
       console.log(e)
     })
   },

@@ -58,8 +58,8 @@ const lib_auth = {
     const atts = sessionStorage.getItem(this.SESSION_STORE_ACCESS_TOKEN_TS)
     const timeElapsed = (now.getTime() - atts) / 1000
 
-    // Refresh the access token if more than 10mn
-    if (timeElapsed > 600) {
+    // Refresh the access token if more than 5mn
+    if (timeElapsed > 300) {
       const dataJson = {
         'rt': this.getRefreshToken()
       }
