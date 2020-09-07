@@ -218,7 +218,7 @@ td.table-value {
 
 /* MESSAGE BOX */
 .msg, .msg-error, .msg-info {
-  color: #efefef;
+  color: #505050;
   font-weight: bold;
   padding: 0;
 }
