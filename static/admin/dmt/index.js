@@ -74,6 +74,7 @@ function _initPages() {
       screenScript.initPage()
   }
   preparePage()
+  $('#top-container').show()
 }
 
 function preparePage() {

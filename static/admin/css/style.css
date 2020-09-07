@@ -236,6 +236,13 @@ td.table-value {
 }
 
 /* PAGES - COMMONS */
+body.dmt {
+  min-height: 100vh;
+  background-image: url("../icons/samourai-logo-loading.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 #body {
 	padding: 0;
   color: #efefef;
@@ -244,6 +251,11 @@ td.table-value {
 #body,
 #form {
 	padding-top: 20px;
+}
+
+#body #main > div {
+  min-height: 80vh;
+  background-color: #1a1d1f;
 }
 
 #body #main .title {
