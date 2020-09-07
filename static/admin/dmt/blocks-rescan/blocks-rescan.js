@@ -1,7 +1,6 @@
 const screenBlocksRescanScript = {
 
-  preparePage: function() {
-    $("#rescan-from-height").focus()
+  initPage: function() {
     // Sets the event handlers
     $('#btn-rescan-go').click(() => {
       this.processRescan()
@@ -11,6 +10,10 @@ const screenBlocksRescanScript = {
         this.processRescan()
       }
     })
+  },
+
+  preparePage: function() {
+    $("#rescan-from-height").focus()
   },
 
   processRescan: function() {

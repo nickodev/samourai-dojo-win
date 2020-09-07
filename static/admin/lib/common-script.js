@@ -35,7 +35,7 @@ const lib_cmn = {
       return null
   },
 
-  // Loads html snippet
+  // Loads html snippets
   includeHTML: function(cb) {
     let self = this
     let z, i, elmnt, file, xhttp
@@ -50,7 +50,7 @@ const lib_cmn = {
             elmnt.innerHTML = this.responseText
             elmnt.removeAttribute('include-html')
             self.includeHTML(cb)
-            self.includeJs(elmnt, cb)
+            self.includeJs(elmnt)
           }
         }
         xhttp.open('GET', file, true)
@@ -61,8 +61,8 @@ const lib_cmn = {
     if (cb) cb()
   },
 
-  // Loads js snippet
-  includeJs: function(element, cb) {
+  // Loads js snippets
+  includeJs: function(element) {
     let self = this
     let z, i, elmnt, file, xhttp
     z = element.querySelectorAll('script')

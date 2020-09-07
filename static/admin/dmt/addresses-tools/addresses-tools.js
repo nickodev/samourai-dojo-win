@@ -3,11 +3,8 @@ const screenAddressesToolsScript = {
   explorerInfo: null,
   currentAddress: null,
 
-  preparePage: function() {
+  initPage: function() {
     this.getExplorerInfo()
-    this.hideRescanForm()
-    this.showSearchForm()
-    $("#address").focus()
     // Sets the event handlers
     $('#btn-address-search-go').click(() => {this.searchAddress()})
     $('#btn-address-details-reset').click(() => {this.showSearchForm()})
@@ -21,6 +18,12 @@ const screenAddressesToolsScript = {
         this.searchAddress()
       }
     })
+  },
+
+  preparePage: function() {
+    this.hideRescanForm()
+    this.showSearchForm()
+    $("#address").focus()
   },
 
   getExplorerInfo: function() {

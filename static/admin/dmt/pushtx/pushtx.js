@@ -2,13 +2,16 @@ const pushtxScript = {
 
   processedSchedTxs: new Set(),
 
-  preparePage: function() {
-    this.refreshPushTxStatus()
-    this.refreshScheduledTxsList()
+  initPage: function() {
     // Refresh PushTx status
     setInterval(() => {this.refreshPushTxStatus()}, 60000)
     // Refresh ScheduledTxs list
     setInterval(() => {this.refreshScheduledTxsList()}, 60000)
+  },
+
+  preparePage: function() {
+    this.refreshPushTxStatus()
+    this.refreshScheduledTxsList()
   },
 
   refreshPushTxStatus: function() {

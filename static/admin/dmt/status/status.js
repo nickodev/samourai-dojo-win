@@ -1,12 +1,15 @@
 const statusScript = {
 
-  preparePage: function() {
-    this.refreshApiStatus()
-    this.refreshPushTxStatus()
+  initPage: function() {
     // Refresh API status
     setInterval(() => {this.refreshApiStatus()}, 60000)
     // Refresh PushTx status
     setInterval(() => {this.refreshPushTxStatus()}, 60000)
+  },
+
+  preparePage: function() {
+    this.refreshApiStatus()
+    this.refreshPushTxStatus()
   },
 
   refreshApiStatus: function() {

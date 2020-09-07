@@ -53,7 +53,7 @@ function initTabs() {
 
 function initPages() {
   // Dynamic loading of screens and scripts
-  lib_cmn.includeHTML(preparePage)
+  lib_cmn.includeHTML(_initPages)
   // Dojo version
   let lblVersion = sessionStorage.getItem('lblVersion')
   if (lblVersion == null) {
@@ -65,6 +65,15 @@ function initPages() {
   } else {
     $('#dojo-version').text(lblVersion)
   }
+}
+
+function _initPages() {
+  for (let screen of screens) {
+    const screenScript = screenScripts.get(screen)
+    if (screenScript)
+      screenScript.initPage()
+  }
+  preparePage()
 }
 
 function preparePage() {

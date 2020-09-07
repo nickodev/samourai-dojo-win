@@ -3,11 +3,8 @@ const screenXpubsToolsScript = {
   explorerInfo: null,
   currentXpub: null,
 
-  preparePage: function() {
+  initPage: function() {
     this.getExplorerInfo()
-    this.hideRescanForm()
-    this.showSearchForm()
-    $("#xpub").focus()
     // Sets the event handlers
     $('#btn-xpub-search-go').click(() => {this.searchXpub()})
     $('#btn-xpub-details-reset').click(() => {this.showSearchForm()})
@@ -22,6 +19,12 @@ const screenXpubsToolsScript = {
         this.searchXpub()
       }
     })
+  },
+
+  preparePage: function() {
+    this.hideRescanForm()
+    this.showSearchForm()
+    $("#xpub").focus()
   },
 
   getExplorerInfo: function() {

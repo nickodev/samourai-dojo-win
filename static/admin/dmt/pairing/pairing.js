@@ -1,5 +1,7 @@
 const screenPairingScript = {
 
+  initPage: function() {},
+
   preparePage: function() {
     this.displayQRPairing()
   },
