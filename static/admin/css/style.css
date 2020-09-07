@@ -180,6 +180,33 @@ td.table-value {
 }
 
 /* BOXES */
+.two-columns-left {
+  vertical-align: top;
+  display: inline-block;
+  padding: 0;
+  background-color: transparent;
+  width: 49%;
+  min-width: 49%;
+  margin-left: 0;
+  margin-right: 0.7%;
+}
+
+.two-columns-right {
+  vertical-align: top;
+  display: inline-block;
+  padding: 0;
+  background-color: transparent;
+  width: 49%;
+  min-width: 49%;
+  margin-left: 0.7%;
+  margin-right: 0;
+}
+
+.two-columns-left .box,
+.two-columns-right .box {
+  margin-bottom: 15px;
+}
+
 .box {
   display: inline-block;
   padding: 10px 10px 10px 10px;
@@ -417,6 +444,13 @@ button {
 
 #login-page span {
   display:inline;
+}
+
+/* PAGES - STATUS */
+#tor-status-ind,
+#nginx-status-ind,
+#nodejs-status-ind {
+  color: #76d776;
 }
 
 /* PAGES - PAIRING */
