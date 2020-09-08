@@ -12,6 +12,8 @@ const screenPairingScript = {
       'explorer': null
     }
 
+    lib_msg.displayMessage('Loading pairing payloads...');
+
     return lib_api.getPairingInfo().then(apiInfo => {
       if (apiInfo) {
         apiInfo['pairing']['url'] = window.location.protocol + '//' + window.location.host + conf['api']['baseUri']
@@ -22,6 +24,7 @@ const screenPairingScript = {
     }).then(explorerInfo => {
       if (explorerInfo)
         result['explorer'] = explorerInfo
+      lib_msg.cleanMessagesUi()
       return result
     }).catch(e => {
       lib_msg.displayErrors(lib_msg.extractJqxhrErrorMsg(e))
