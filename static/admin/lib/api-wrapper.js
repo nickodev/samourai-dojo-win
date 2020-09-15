@@ -131,7 +131,12 @@ const lib_api = {
    */
   getTransaction: function(txid) {
     let uri = this.baseUri + '/tx/' + txid
-    return this.sendGetUriEncoded(uri, {})
+    return this.sendGetUriEncoded(
+      uri,
+      {
+        'fees': 1
+      }
+    )
   },
 
   /**

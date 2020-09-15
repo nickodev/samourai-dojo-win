@@ -705,14 +705,68 @@ button {
   font-weight: bold;
 }
 
+/* PAGES - TRANSACTIONS TOOL */
+#txs-tool-search-form span {
+  display: inline;
+}
+
+#txs-tool-search-form .box-body {
+  text-align: center;
+}
+
+#txs-tool-search-form input {
+  width: 400px;
+  margin-left: 5px;
+  margin-right: 5px;
+  display: inline-block;
+}
+
+#txs-tool-details {
+  width: 100%;
+}
+
+#txs-tool-header {
+  margin: 0 0 20px 0;
+}
+
+#txs-tool-actions {
+  text-align: center;
+}
+
+#txs-tool-details #txid-value {
+  overflow: hidden;
+}
+
+#txs-tool-details-row1 table {
+  width: 100%;
+}
+
+#txs-tool-details-row1 table .table-label {
+  width: 15%;
+}
+
+#txs-tool-details-row1 table .table-value {
+  width: 35%;
+}
 
 /* PAGES - HELP DMT */
 #welcome span {
   margin: 20px 0;
 }
 
+#welcome .items-category {
+  margin: 20px 0 10px 0;
+  font-weight: bold;
+  font-size: 16px;
+}
+
 #welcome .item {
-  margin: 20px 0;
+  margin: 10px 0 0 10px;
+  font-weight: bold;
+}
+
+#welcome .item-descr {
+  margin: 5px 0 10px 10px;
 }
 
 

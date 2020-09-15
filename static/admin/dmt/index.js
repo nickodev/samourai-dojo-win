@@ -10,6 +10,7 @@ const screens = [
   '#screen-pairing',
   '#screen-xpubs-tools',
   '#screen-addresses-tools',
+  '#screen-txs-tools',
   '#screen-blocks-rescan',
   '#screen-help-dmt'
 ]
@@ -22,6 +23,7 @@ const tabs = [
   '#link-pairing',
   '#link-xpubs-tools',
   '#link-addresses-tools',
+  '#link-txs-tools',
   '#link-blocks-rescan',
   '#link-help-dmt'
 ]
@@ -37,7 +39,7 @@ function initTabs() {
   // Activates the current tab
   let currentTab = sessionStorage.getItem('activeTab')
   if (!currentTab)
-    currentTab = '#link-welcome'
+    currentTab = '#link-status'
   $(currentTab).addClass('active')
 
   // Sets event handlers
